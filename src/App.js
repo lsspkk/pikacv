@@ -1,7 +1,7 @@
-import React, {useState } from 'react'
+import React, {useState, useEffect } from 'react'
 import logo from './logo.svg'
 import { Information, emptyInformation } from 'components/Information'
-import { Layout } from 'components/Layout'
+import { Layout, defaultLayout } from 'components/Layout'
 import './App.scss'
 import 'react-bulma-components/dist/react-bulma-components.min.css'
 import Navbar from 'react-bulma-components/lib/components/navbar'
@@ -19,7 +19,11 @@ import constants from 'react-bulma-components/lib/constants'
 function App () {
   const [burger, setBurger] = useState(false)
   const [information, setInformation] = useState(emptyInformation)
-  const [layout, setLayout] = useState({})
+  const [layout, setLayout] = useState(defaultLayout)
+  useEffect(() => {
+    const loaded = window.localStorage.getItem('pikacv')
+    loaded && setInformation(JSON.parse(loaded))
+  }, [setInformation])
   return (
     <Router>
       <div className='App'>
@@ -29,10 +33,9 @@ function App () {
           onClick={() => setBurger(!burger)}
         >
           <Navbar.Brand>
-            <Navbar.Item color={constants.COLORS.INFO} renderAs='a' href='#'>
-              -<FontAwesomeIcon size='2x' icon={faBriefcase} />...
-              <FontAwesomeIcon size='2x' icon={faBriefcase} />-
-              <span style={{fontWeight: 'bold', fontSize: '2rem'}}>PIKA CV</span>
+            <Navbar.Item style={{width: '10em'}} color={constants.COLORS.INFO} renderAs='a' href='#'>
+              <img src={logo} />
+              <span style={{fontWeight: 'bold', fontSize: '1.5rem', paddingLeft: '0.4em'}}>pika CV</span>
             </Navbar.Item>
             <Navbar.Burger />
           </Navbar.Brand>
@@ -70,7 +73,7 @@ function App () {
             <Information information={information} setInformation={setInformation} />
           </Route>
           <Route path='/layout'>
-            <Layout />
+            <Layout layout={layout} setLayout={setLayout} information={information} />
           </Route>
           <Route path='/cv'>
             Ei tehty

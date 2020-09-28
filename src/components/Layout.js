@@ -1,51 +1,60 @@
-import React, {useState } from 'react'
+import React, {useState, useRef, useEffect } from 'react'
 import '../App.scss'
 import 'react-bulma-components/dist/react-bulma-components.min.css'
-import Navbar from 'react-bulma-components/lib/components/navbar'
-import {
-  Link
-} from 'react-router-dom'
+import { Field, Control, Label, Input, Textarea, Select, Checkbox, Radio, Help, InputFile } from 'react-bulma-components/lib/components/form'
+import Button from 'react-bulma-components/lib/components/button'
+import Icon from 'react-bulma-components/lib/components/icon'
+import Image from 'react-bulma-components/lib/components/image'
+import { Section } from 'react-bulma-components'
+import { WorkHistory } from './WorkHistory'
+import { Skill } from './Skill'
+import { Header } from './Header'
+import { PikaCV } from './PikaCV'
+import Columns from 'react-bulma-components/lib/components/columns'
 
-export function Layout () {
-  const [burger, setBurger] = useState(false)
-  const [information, setInformation] = useState({})
-  const [layout, setLayout] = useState({})
+export const defaultLayout = {
+  header: { fontFamily: 'Verdana', color: '#adbcaa', background: '#765f78' },
+  basic: { fontFamily: 'Times', color: '#222222' },
+  title: { fontFamily: 'Verdana', color: '#ad5463', fontSize: '2em' }
+}
+
+export function Layout ({layout, setLayout, information}) {
+  const change = (group, key, value) => {
+    let updatedGroup = {...layout[group]}
+    updatedGroup[key] = value
+    let newLayout = {...layout}
+    newLayout[group] = updatedGroup
+    setLayout(newLayout)
+  }
+  const t = {
+    header: 'Ylätunniste',
+    basic: 'Leipäteksti',
+    title: 'Otsikot',
+    fontFamily: 'Fontti',
+    color: 'Väri',
+    background: 'Taustaväri',
+    fontSize: 'Koko'
+  }
   return (
-    <div className='App'>
-      <Navbar
-        color='primary'
-        fixed='Fixed'
-        active={burger}
-        onClick={() => setBurger(!burger)}
-      >
-        <Navbar.Brand>
-          <Navbar.Item renderAs='a' href='#'>
-              PIKA CV
-          </Navbar.Item>
-          <Navbar.Burger />
-        </Navbar.Brand>
-        <Navbar.Menu >
-          <Navbar.Container>
-            <Navbar.Item href='#'>
-              <Link to='/information'>Tiedot</Link>
-            </Navbar.Item>
-            <Navbar.Item href='#'>
-              <Link to='/layout'>Ulkoasu</Link>
-            </Navbar.Item>
-          </Navbar.Container>
-          <Navbar.Item href='#'>
-            <Link to='/cv'>Tee CV</Link>
-          </Navbar.Item>
-          <Navbar.Container position='end'>
-            <Navbar.Item href='#'>
-              <Link to='/import'>Tuo</Link>
-            </Navbar.Item>
-            <Navbar.Item href='#'>
-              <Link to='/export'>Vie</Link>
-            </Navbar.Item>
-          </Navbar.Container>
-        </Navbar.Menu>
-      </Navbar>
-    </div>
+
+    <Columns style={{fontSize: '70%'}}>
+      <Columns.Column style={{flex: '1'}}>
+        { Object.keys(layout).map(group => (
+          <div>
+            <h1>{t[group]}</h1>
+            { Object.keys(layout[group]).map(key => (
+              <Field>
+                <Label style={{fontSize: '80%'}} >{t[key]}</Label>
+                <Input style={{fontSize: '80%'}} type='text' value={layout[group][key]} onChange={(e) => change(group, key, e.target.value)} />
+              </Field>
+            ))}
+          </div>
+        ))}
+      </Columns.Column>
+      <Columns.Column style={{flex: '7'}}>
+        <PikaCV layout={layout} information={information} />
+      </Columns.Column>
+
+    </Columns>
   )
 }

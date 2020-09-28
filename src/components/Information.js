@@ -15,20 +15,14 @@ export const emptyInformation = {
   name: '',
   contact: '',
   photo: '',
+  photoimage: {},
   summary: '',
   workhistory: [],
   skills: []
 }
 
 export function Information ({information, setInformation}) {
-  const photo = useRef(null)
-  const [photoImage, setPhotoImage] = useState('')
-
-  useEffect(() => {
-    const loaded = window.localStorage.getItem('pikacv')
-    loaded && setInformation(JSON.parse(loaded))
-  }, [setInformation])
-
+  const photo = useRef()
   const changeHistory = (historyitem) => {
     const updatedHistory = [...information.workhistory.filter(h => h.id !== historyitem.id), historyitem]
     setInformation({...information, workhistory: updatedHistory})
@@ -85,15 +79,14 @@ export function Information ({information, setInformation}) {
                 <InputFile ref={photo} value={information.photo} onChange={(e) => {
                   const reader = new FileReader()
                   reader.readAsDataURL(e.target.files[0])
-                  reader.onload = () => { setPhotoImage(reader.result) }
-                }
-                }
+                  reader.onload = () => setInformation({...information, photoImage: reader.result })
+                }}
                 icon={<Icon icon='upload' />} boxed placeholder='Textarea' />
               </Control>
             </Field>
           </Columns.Column>
           <Columns.Column >
-            <Image size={128} src={photoImage} />
+            <Image size={128} src={information.photoImage} />
           </Columns.Column>
         </Columns>
       </Section>
