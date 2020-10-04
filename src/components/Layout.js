@@ -1,24 +1,41 @@
-import React, {useState, useRef, useEffect } from 'react'
+import React, { } from 'react'
 import '../App.scss'
 import 'react-bulma-components/dist/react-bulma-components.min.css'
-import { Field, Control, Label, Input, Textarea, Select, Checkbox, Radio, Help, InputFile } from 'react-bulma-components/lib/components/form'
+import { Field, Label, Input, Textarea} from 'react-bulma-components/lib/components/form'
 import Button from 'react-bulma-components/lib/components/button'
-import Icon from 'react-bulma-components/lib/components/icon'
-import Image from 'react-bulma-components/lib/components/image'
-import { Section } from 'react-bulma-components'
-import { WorkHistory } from './WorkHistory'
-import { Skill } from './Skill'
 import { Header } from './Header'
 import { PikaCV } from './PikaCV'
 import Columns from 'react-bulma-components/lib/components/columns'
+import { useTranslation } from './useTranslation'
 
 export const defaultLayout = {
   header: { fontFamily: 'Verdana', color: '#adbcaa', background: '#765f78' },
   basic: { fontFamily: 'Times', color: '#222222' },
-  title: { fontFamily: 'Verdana', color: '#ad5463', fontSize: '2em' }
+  title: { fontFamily: 'Verdana', color: '#ad5463', fontSize: '2em' },
+  label: { fontWeight: 'bold' },
+  skill: { columnSize: 4 },
+  textFields: [
+    {  language: 'en', name: 'skillLevelsText', 
+    value : `Skill levels:
+  1. Fundamental: Basic awareness, able to work but need guidance
+  2. Novice: Fluent but with limited exprerience, might need some support
+  3. Intermediate: Capable of working alone or guiding others, have practical experience
+  4. Advanced: Deep knowledge, long practical experience
+  5. Expert: Recognized authority with deep knowledge, capabable of solving even the most diffcult issues
+  `},
+  {  language: 'fi', name: 'skillLevelsText', 
+  value : `Taitotasot:
+  1. Alkeet: Pystyy työskentelemään, mutta tarvitsee opastusta
+  2. Perusteet: Osaava, mutta vähän kokemusta ja saattaa tarvita tukea
+  3. Keskinkertainen: Pärjää yksin ja voi opastaa muita, on käytännön kokemusta
+  4. Edistynyt: Syvällistä tietoa ja paljon käytännön kokemusta
+  5. Asiantuntija: Tunnustetusti syvällistä tietoa ja kykyä ratkaista hankalimmatkin haasteet
+  `
+}]
 }
 
-export function Layout ({layout, setLayout, information}) {
+export function Layout ({layout, setLayout, information, save}) {
+  const t = useTranslation('fi')
   const change = (group, key, value) => {
     let updatedGroup = {...layout[group]}
     updatedGroup[key] = value
@@ -26,30 +43,50 @@ export function Layout ({layout, setLayout, information}) {
     newLayout[group] = updatedGroup
     setLayout(newLayout)
   }
-  const t = {
-    header: 'Ylätunniste',
-    basic: 'Leipäteksti',
-    title: 'Otsikot',
-    fontFamily: 'Fontti',
-    color: 'Väri',
-    background: 'Taustaväri',
-    fontSize: 'Koko'
+  const changeText = (name, language, newValue) => {
+    const index = layout.textFields.findIndex(f => f.name === name && f.language === language)
+    if( index === -1 ) {
+      return
+    }  
+    let updated = {...layout.textFields[index], value: newValue}
+    const updatedTextFields = [...layout.textFields.slice(0,index), updated, ...layout.textFields.slice(index+1, information.workhistory.length)]
+    setLayout({...layout, textFields: updatedTextFields})
+  }
+  
+  const type = (field) => {
+    return field === 'color' || field === 'background' ? 'color' : 'text'
   }
   return (
 
-    <Columns style={{fontSize: '70%'}}>
+    <Columns>
       <Columns.Column style={{flex: '1'}}>
-        { Object.keys(layout).map(group => (
-          <div>
-            <h1>{t[group]}</h1>
-            { Object.keys(layout[group]).map(key => (
-              <Field>
-                <Label style={{fontSize: '80%'}} >{t[key]}</Label>
-                <Input style={{fontSize: '80%'}} type='text' value={layout[group][key]} onChange={(e) => change(group, key, e.target.value)} />
+        <h1>Ulkoasu</h1>
+      <Button color='info' onClick={() => save()}>Tallenna</Button>
+            <div style={{fontSize:'70%', margin: '0.5em 0 1em'}}>(tallentuu local storageen)</div>
+
+        { Object.keys(layout).filter(k => k !== 'textFields').map(group => (
+          <div key={'layoutgroup'+group} style={{paddingBottom: '1em'}}>
+            <Header>{t(group)}</Header>
+            { Object.keys(layout[group]).map(field => (
+              <Field key={'layoutfield'+group+field} className="is-horizontal">
+                <Label className="is-small field-label">{t(field)}</Label>
+                <Input className="is-small field-body" style={{maxWidth: '6em'}} type={type(field)} value={layout[group][field]} onChange={(e) => change(group, field, e.target.value)} />
               </Field>
             ))}
           </div>
         ))}
+        <Header>{t('textFields')}</Header>
+        { layout.textFields.map(field => (
+          <Field>
+            <Label>{t(field.name)} ({t(field.language)})</Label>
+            <Textarea value={field.value} onChange={(e) => changeText(field.name, field.language, e.target.value)}></Textarea>
+          </Field>
+        ))}
+
+        <Field>
+          <Label className="is-small field-label">{t('skill_levels') }</Label>
+
+        </Field>
       </Columns.Column>
       <Columns.Column style={{flex: '7'}}>
         <PikaCV layout={layout} information={information} />

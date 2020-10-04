@@ -1,13 +1,13 @@
-import React, {useState, useRef, useEffect } from 'react'
+import React, {useRef } from 'react'
 import '../App.scss'
 import 'react-bulma-components/dist/react-bulma-components.min.css'
-import { Field, Control, Label, Input, Textarea, Select, Checkbox, Radio, Help, InputFile } from 'react-bulma-components/lib/components/form'
+import { Field, Control, Label, Input, Textarea, InputFile } from 'react-bulma-components/lib/components/form'
 import Button from 'react-bulma-components/lib/components/button'
 import Icon from 'react-bulma-components/lib/components/icon'
 import Image from 'react-bulma-components/lib/components/image'
 import { Section } from 'react-bulma-components'
 import { WorkHistory } from './WorkHistory'
-import { Skill } from './Skill'
+import { SkillInput } from './Skill'
 import { Header } from './Header'
 import Columns from 'react-bulma-components/lib/components/columns'
 
@@ -21,22 +21,34 @@ export const emptyInformation = {
   skills: []
 }
 
-export function Information ({information, setInformation}) {
+export function Information ({information, setInformation, save}) {
   const photo = useRef()
   const changeHistory = (historyitem) => {
-    const updatedHistory = [...information.workhistory.filter(h => h.id !== historyitem.id), historyitem]
+    const index = information.workhistory.findIndex(h => h.id === historyitem.id)
+    if( index === -1 ) {
+      return
+    }
+    const updatedHistory = [...information.workhistory.slice(0,index), historyitem, ...information.workhistory.slice(index+1, information.workhistory.length)]
     setInformation({...information, workhistory: updatedHistory})
   }
   const removeHistory = (historyitem) => {
     const updatedHistory = information.workhistory.filter(h => h.id !== historyitem.id)
     setInformation({...information, workhistory: updatedHistory})
   }
-  const changeSkill = (skillitem) => {
-    const updatedSkills = [...information.skills.filter(h => h.id !== skillitem.id), skillitem]
+  const updateSkill = (skillitem) => {
+    const index = information.skills.findIndex(h => h.id === skillitem.id)
+    if( index === -1 ) {
+      return
+    }
+    const updatedSkills = [...information.skills.slice(0,index), skillitem, ...information.skills.slice(index+1, information.skills.length)]
     setInformation({...information, skills: updatedSkills})
   }
   const removeSkill = (skillitem) => {
-    const updatedSkills = information.skills.filter(h => h.id !== skillitem.id)
+    const updatedSkills = information.skills.filter(h => {
+      console.log(h.id, skillitem.id, h.id !== skillitem.id)
+      return h.id !== skillitem.id
+    })
+
     setInformation({...information, skills: updatedSkills})
   }
 
@@ -47,10 +59,10 @@ export function Information ({information, setInformation}) {
           <Columns.Column>
             <Header>Syötä tietosi</Header>
           </Columns.Column>
-          <Columns.Column>
+          <Columns.Column style={{textAlign:'right'}}>
 
-            <Button color='info' onClick={() => window.localStorage.setItem('pikacv', JSON.stringify(information))}>Tallenna</Button>
-            <span style={{padding: '1em', lineHeight: '2.5em'}}>(tallentuu local storageen)</span>
+            <Button color='info' onClick={() => save()}>Tallenna</Button>
+            <div style={{fontSize:'70%', margin: '0.5em 0 1em'}}>(tallentuu local storageen)</div>
           </Columns.Column>
         </Columns>
       </Section>
@@ -61,8 +73,6 @@ export function Information ({information, setInformation}) {
               <Label>Nimi</Label>
               <Input type='text' placeholder='Etunimi Sukunimi' value={information.name} onChange={(e) => setInformation({...information, name: e.target.value})} />
             </Field>
-          </Columns.Column>
-          <Columns.Column>
             <Field>
               <Label>Osoite, puhelin, sähköposti</Label>
               <Textarea placeholder='Kotikatu 1&#10;00100 Helsinki&#10;puh.0401234567&#10;etunimi@gmailcom'
@@ -70,9 +80,17 @@ export function Information ({information, setInformation}) {
               />
             </Field>
           </Columns.Column>
+          <Columns.Column>
+          <Field>
+              <Label>Yleistiedot</Label>
+              <Textarea rows={8} placeholder='Olennaisin tieto on&#10;siinä ja tässä&#10;sekä tuossa&#10;lisäksi on mainittava tämä'
+                value={information.summary} onChange={(e) => setInformation({...information, summary: e.target.value})}
+              />
+            </Field>
+          </Columns.Column>
         </Columns>
         <Columns>
-          <Columns.Column >
+          <Columns.Column style={{display: 'flex', justifyItems:'flex-start'}}>
             <Field>
               <Label>Valokuva (valitse tiedosto)</Label>
               <Control>
@@ -84,9 +102,7 @@ export function Information ({information, setInformation}) {
                 icon={<Icon icon='upload' />} boxed placeholder='Textarea' />
               </Control>
             </Field>
-          </Columns.Column>
-          <Columns.Column >
-            <Image size={128} src={information.photoImage} />
+            <Image size={128} src={information.photoImage} style={{marginLeft:'3em'}}/>
           </Columns.Column>
         </Columns>
       </Section>
@@ -104,7 +120,9 @@ export function Information ({information, setInformation}) {
           <Header>Osaaminen</Header>
           <Button onClick={() => setInformation({...information, skills: [...information.skills, { id: JSON.stringify(Date.now()), name: '', level: -1 }] })}>Lisää</Button>
         </h1>
-        { information.skills.map(s => <Skill key={'s' + s.id} skill={s} change={changeSkill} remove={removeSkill} />)}
+        <Columns style={{padding: '0 1.5em'}}>
+        { information.skills.map(s => <SkillInput key={'s' + s.id} skill={s} change={updateSkill} remove={removeSkill} />)}
+        </Columns>
       </Section>
 
     </div>
