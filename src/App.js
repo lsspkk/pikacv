@@ -18,8 +18,11 @@ import { useTranslation } from './components/useTranslation'
 const fullScreenStyle = {
   position: 'absolute',
   top: '-4em',
-  left: '0em',
+  left: '50%',
+  transform: 'translateX(-50%)',
   minWidth: '100vw',
+  maxWidth: '100vw',
+  width: '100vw',
   minHeight: '100vh',
   zIndex: 30
 }
