@@ -27,11 +27,12 @@ export function PikaCV ({layout, information}) {
           <p style={{whiteSpace: 'pre-line'}}>{information.contact}</p>
         </Section>
       </div>
-      <Section className='cv-summary' >
+      <div style={{margin: '1em 0 2em'}} className='cv-summary' >
         <div style={{...layout.title,marginTop:'1em'}}>Information</div>
         <div style={sumStyle}>{information.summary}</div>
-      </Section>
-      <Section className='cv-workhistory' >
+      </div>
+
+      <div style={{margin: '1em 0 2em'}} className='cv-workhistory' >
       <div style={{...layout.title,margin:'1em 0 1em'}}>Experience</div>
         { information.workhistory.map(historyitem => (
           <Columns key={JSON.stringify(historyitem)}>
@@ -55,8 +56,9 @@ export function PikaCV ({layout, information}) {
             </Columns.Column>
           </Columns>
         ))}
-      </Section>
-      <Section className='cv-skills' >
+      </div>
+
+      <div style={{margin: '1em 0 2em'}} className='cv-skills' >
         <div style={{...layout.title,margin:'1em 0 1em'}}>Skills</div>
         <Columns>
         { information.skills.sort(sortSkills).map(skill => 
@@ -71,9 +73,9 @@ export function PikaCV ({layout, information}) {
         }
         </Columns>
         
-      </Section>
+      </div>
 
-      <Section className='cv-education' >
+      <div style={{margin: '1em 0 2em'}} className='cv-education' >
       <div style={{...layout.title,margin:'1em 0 1em'}}>Education</div>
         { information.education.map(item => (
           <Columns key={JSON.stringify(item)}>
@@ -94,7 +96,7 @@ export function PikaCV ({layout, information}) {
             </Columns.Column>
           </Columns>
         ))}
-      </Section>
+      </div>
 
       <Section className='' >
       </Section>
