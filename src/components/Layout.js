@@ -2,10 +2,11 @@ import React, { } from 'react'
 import '../App.scss'
 import 'react-bulma-components/dist/react-bulma-components.min.css'
 import { Field, Label, Input, Textarea} from 'react-bulma-components/lib/components/form'
+import Container from 'react-bulma-components/lib/components/container'
 import Button from 'react-bulma-components/lib/components/button'
+import Columns from 'react-bulma-components/lib/components/columns'
 import { Header } from './Header'
 import { PikaCV } from './PikaCV'
-import Columns from 'react-bulma-components/lib/components/columns'
 import { useTranslation } from './useTranslation'
 
 export const defaultLayout = {
@@ -13,7 +14,7 @@ export const defaultLayout = {
   basic: { fontFamily: 'Times', color: '#222222' },
   title: { fontFamily: 'Verdana', color: '#ad5463', fontSize: '2em' },
   label: { fontWeight: 'bold' },
-  skill: { columnSize: 4 },
+  skill: { columnSize: 4, color: '#3298dc' },
   textFields: [
     {  language: 'en', name: 'skillLevelsText', 
     value : `Skill levels:
@@ -57,17 +58,19 @@ export function Layout ({layout, setLayout, information, save}) {
     return field === 'color' || field === 'background' ? 'color' : 'text'
   }
   return (
-
-    <Columns>
+<Container>
+      <Columns>
       <Columns.Column style={{flex: '1'}}>
-        <h1>Ulkoasu</h1>
+        <Header>Ulkoasu</Header>
       <Button color='info' onClick={() => save()}>Tallenna</Button>
-            <div style={{fontSize:'70%', margin: '0.5em 0 1em'}}>(tallentuu local storageen)</div>
+            <div style={{fontSize:'70%', margin: '0.5em 0 1em'}}>{t('saved_to_local_storage')}</div>
+
 
         { Object.keys(layout).filter(k => k !== 'textFields').map(group => (
           <div key={'layoutgroup'+group} style={{paddingBottom: '1em'}}>
             <Header>{t(group)}</Header>
             { Object.keys(layout[group]).map(field => (
+                
               <Field key={'layoutfield'+group+field} className="is-horizontal">
                 <Label className="is-small field-label">{t(field)}</Label>
                 <Input className="is-small field-body" style={{maxWidth: '6em'}} type={type(field)} value={layout[group][field]} onChange={(e) => change(group, field, e.target.value)} />
@@ -83,8 +86,8 @@ export function Layout ({layout, setLayout, information, save}) {
           </Field>
         ))}
 
-        <Field>
-          <Label className="is-small field-label">{t('skill_levels') }</Label>
+        <Field style={{margin: '4em 0em'}}>
+        <Button color='danger' onClick={() => setLayout(defaultLayout)}>{t('reset')}</Button>
 
         </Field>
       </Columns.Column>
@@ -93,5 +96,6 @@ export function Layout ({layout, setLayout, information, save}) {
       </Columns.Column>
 
     </Columns>
+    </Container>
   )
 }

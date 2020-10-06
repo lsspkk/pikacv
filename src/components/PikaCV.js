@@ -32,7 +32,7 @@ export function PikaCV ({layout, information}) {
         <div style={sumStyle}>{information.summary}</div>
       </Section>
       <Section className='cv-workhistory' >
-        <div style={{...layout.title}}>Experience</div>
+      <div style={{...layout.title,margin:'1em 0 1em'}}>Experience</div>
         { information.workhistory.map(historyitem => (
           <Columns key={JSON.stringify(historyitem)}>
             <Columns.Column size={8} >
@@ -48,7 +48,7 @@ export function PikaCV ({layout, information}) {
 
             </Columns.Column>
             <Columns.Column size={4}>
-            <div className='dates' style={{ color: layout.title.color, textAlign: 'right'}}>
+            <div className='dates' style={{ color: layout.title.color, textAlign: 'right',paddingRight:'3em'}}>
               {`${historyitem.startDate}${historyitem.endDate ? (' - ' + historyitem.endDate): ''}`}
               </div>
             
@@ -61,7 +61,7 @@ export function PikaCV ({layout, information}) {
         <Columns>
         { information.skills.sort(sortSkills).map(skill => 
         <Columns.Column size={layout.skill.columnSize}>
-        <Skill key={JSON.stringify(skill)} skill={skill}/>
+        <Skill key={JSON.stringify(skill)} skill={skill} layout={layout}/>
         </Columns.Column>
         ) }
         { skillLevelsText.length > 0 &&
@@ -71,6 +71,29 @@ export function PikaCV ({layout, information}) {
         }
         </Columns>
         
+      </Section>
+
+      <Section className='cv-education' >
+      <div style={{...layout.title,margin:'1em 0 1em'}}>Education</div>
+        { information.education.map(item => (
+          <Columns key={JSON.stringify(item)}>
+            <Columns.Column size={8} >
+            <div className='school'>
+              <span  style={{...layout.label}} >{item.school}</span>
+              </div>
+              <div className='degree'>
+              {item.degree}
+              </div>
+              
+            </Columns.Column>
+            <Columns.Column size={4}>
+            <div className='dates' style={{ color: layout.title.color, textAlign: 'right',marginRight:'3em'}}>
+              {item.date}
+              </div>
+            
+            </Columns.Column>
+          </Columns>
+        ))}
       </Section>
 
       <Section className='' >

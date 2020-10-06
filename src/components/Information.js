@@ -5,11 +5,13 @@ import { Field, Control, Label, Input, Textarea, InputFile } from 'react-bulma-c
 import Button from 'react-bulma-components/lib/components/button'
 import Icon from 'react-bulma-components/lib/components/icon'
 import Image from 'react-bulma-components/lib/components/image'
+import Container from 'react-bulma-components/lib/components/container'
+import Columns from 'react-bulma-components/lib/components/columns'
 import { Section } from 'react-bulma-components'
 import { WorkHistory } from './WorkHistory'
 import { SkillInput } from './Skill'
 import { Header } from './Header'
-import Columns from 'react-bulma-components/lib/components/columns'
+import { emptyEducation, Education } from './Education'
 
 export const emptyInformation = {
   name: '',
@@ -18,42 +20,32 @@ export const emptyInformation = {
   photoimage: {},
   summary: '',
   workhistory: [],
-  skills: []
+  skills: [],
+  education: []
 }
 
 export function Information ({information, setInformation, save}) {
   const photo = useRef()
-  const changeHistory = (historyitem) => {
-    const index = information.workhistory.findIndex(h => h.id === historyitem.id)
+  
+  const change = (field, item) => {
+    const index = information[field].findIndex(h => h.id === item.id)
     if( index === -1 ) {
       return
     }
-    const updatedHistory = [...information.workhistory.slice(0,index), historyitem, ...information.workhistory.slice(index+1, information.workhistory.length)]
-    setInformation({...information, workhistory: updatedHistory})
+    const newValue = [...information[field].slice(0,index), item, ...information[field].slice(index+1, information.workhistory.length)]
+    let newInformation = {...information}
+    newInformation[field] = newValue
+    setInformation(newInformation)
   }
-  const removeHistory = (historyitem) => {
-    const updatedHistory = information.workhistory.filter(h => h.id !== historyitem.id)
-    setInformation({...information, workhistory: updatedHistory})
-  }
-  const updateSkill = (skillitem) => {
-    const index = information.skills.findIndex(h => h.id === skillitem.id)
-    if( index === -1 ) {
-      return
-    }
-    const updatedSkills = [...information.skills.slice(0,index), skillitem, ...information.skills.slice(index+1, information.skills.length)]
-    setInformation({...information, skills: updatedSkills})
-  }
-  const removeSkill = (skillitem) => {
-    const updatedSkills = information.skills.filter(h => {
-      console.log(h.id, skillitem.id, h.id !== skillitem.id)
-      return h.id !== skillitem.id
-    })
-
-    setInformation({...information, skills: updatedSkills})
+  const remove = (field, item) => {
+    const newValue = information[field].filter(h => h.id !== item.id)
+    let newInformation = {...information}
+    newInformation[field] = newValue
+    setInformation(newInformation)
   }
 
   return (
-    <div>
+    <Container>
       <Section>
         <Columns>
           <Columns.Column>
@@ -112,7 +104,7 @@ export function Information ({information, setInformation, save}) {
           <Header>Työkokemus</Header>
           <Button onClick={() => setInformation({...information, workhistory: [...information.workhistory, { id: JSON.stringify(Date.now()), company: '', role: '', description: '' }] })}>Lisää</Button>
         </h1>
-        { information.workhistory.map(history => <WorkHistory key={'h' + history.id} history={history} change={changeHistory} remove={removeHistory} />)}
+        { information.workhistory.map(history => <WorkHistory key={'h' + history.id} history={history} change={change} remove={remove} />)}
       </Section>
 
       <Section>
@@ -121,10 +113,19 @@ export function Information ({information, setInformation, save}) {
           <Button onClick={() => setInformation({...information, skills: [...information.skills, { id: JSON.stringify(Date.now()), name: '', level: -1 }] })}>Lisää</Button>
         </h1>
         <Columns style={{padding: '0 1.5em'}}>
-        { information.skills.map(s => <SkillInput key={'s' + s.id} skill={s} change={updateSkill} remove={removeSkill} />)}
+        { information.skills.map(s => <SkillInput key={'s' + s.id} skill={s} change={change} remove={remove} />)}
         </Columns>
       </Section>
 
-    </div>
+      <Section>
+        <h1 style={{display: 'flex', alignItems: 'center', width: '100%', paddingBottom: '1em'}}>
+          <Header>Koulutus</Header>
+          <Button onClick={() => setInformation({...information, education: [...information.education, emptyEducation()] })}>Lisää</Button>
+        </h1>
+        { information.education.map(e => <Education key={'e' + e.id} education={e} change={change} remove={remove} />)}
+      </Section>
+
+
+    </Container>
   )
 }

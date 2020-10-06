@@ -5,6 +5,7 @@ import 'react-bulma-components/dist/react-bulma-components.min.css'
 import Navbar from 'react-bulma-components/lib/components/navbar'
 import Container from 'react-bulma-components/lib/components/container'
 import Footer from 'react-bulma-components/lib/components/footer'
+import Columns from 'react-bulma-components/lib/components/columns'
 import {
   BrowserRouter as Router,
   Switch,
@@ -17,9 +18,8 @@ import { useTranslation } from './components/useTranslation'
 
 const fullScreenStyle = {
   position: 'absolute',
-  top: '-4em',
-  left: '50%',
-  transform: 'translateX(-50%)',
+  top: '0',
+  left: '0',
   minWidth: '100vw',
   maxWidth: '100vw',
   width: '100vw',
@@ -48,7 +48,7 @@ function App () {
   }
   return (
     <Router>
-      <div className='App'>
+      <div>
         <Navbar
           color='info'
           active={burger}
@@ -85,12 +85,12 @@ function App () {
             </Navbar.Container>
           </Navbar.Menu>
         </Navbar>
-      <Container>
         <Switch>
           <Route exact path='/'>
-            <div>
-              Syötä tiedot ja ulkoasu, tee pika cv
-            </div>
+          <Container style={{height: '72vh'}}>
+              <p>{t('introduction')}
+              </p>
+          </Container>
           </Route>
           <Route path='/information'>
             <Information save={save} information={information} setInformation={setInformation} />
@@ -104,16 +104,28 @@ function App () {
             </div>
           </Route>
           <Route path='/import'>
+          <Container>
             Kesken
+            </Container>
           </Route>
           <Route path='/export'>
+          <Container>
             Kesken
+            </Container>
           </Route>
         </Switch>
-      </Container>
       <Footer>
       <Container>
-
+        <Columns>
+        <Columns.Column size={6}>
+          <p>Clone customize to your needs</p>
+        <a href="https://github.com/lsspkk/pikacv">PikaCV - Github Repository</a>
+        </Columns.Column>
+        <Columns.Column size={6} style={{textAlign: 'right'}}>
+          2020<br/>
+          10 hours of Autumn evenings
+        </Columns.Column>
+        </Columns>
       </Container>
       </Footer>
       </div>

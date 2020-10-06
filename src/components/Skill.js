@@ -17,7 +17,7 @@ export function SkillInput({ skill, change, remove }) {
           <Field>
             <Label>Taito</Label>
             <Input type='text' placeholder='Java/React' value={skill.name}
-              onChange={(e) => change({ ...skill, name: e.target.value })} />
+              onChange={(e) => change('skills', { ...skill, name: e.target.value })} />
           </Field>
         </Columns.Column>
         <Columns.Column >
@@ -27,22 +27,22 @@ export function SkillInput({ skill, change, remove }) {
               <FontAwesomeIcon icon={faStar}
                 color={color(1)}
                 style={{ cursor: 'pointer' }}
-                onClick={() => change({ ...skill, level: 1 })}
+                onClick={() => change('skills',{ ...skill, level: 1 })}
               />
               <FontAwesomeIcon icon={faStar}
                 color={color(2)}
                 style={{ cursor: 'pointer' }}
-                onClick={() => change({ ...skill, level: 2 })}
+                onClick={() => change('skills',{ ...skill, level: 2 })}
               />
               <FontAwesomeIcon icon={faStar}
-                onClick={() => change({ ...skill, level: 3 })}
+                onClick={() => change('skills',{ ...skill, level: 3 })}
                 style={{ cursor: 'pointer' }}
                 color={color(3)}
               />
               <FontAwesomeIcon icon={faStar}
                 color={color(4)}
                 style={{ cursor: 'pointer' }}
-                onClick={() => change({ ...skill, level: 4 })}
+                onClick={() => change('skills',{ ...skill, level: 4 })}
               />
               <FontAwesomeIcon icon={faStar}
                 color={color(5)}
@@ -53,7 +53,7 @@ export function SkillInput({ skill, change, remove }) {
           </Field>
         </Columns.Column>
         <Columns.Column>
-          <Button color='danger' onClick={() => remove(skill)}>
+          <Button color='danger' onClick={() => remove('skills',skill)}>
             <FontAwesomeIcon icon={faTrash} />
           </Button>
         </Columns.Column>
@@ -63,8 +63,8 @@ export function SkillInput({ skill, change, remove }) {
   )
 }
 
-export function Skill({ skill }) {
-  const color = (level) => level <= skill.level ? '#3298dc' : '#bdbdbd'
+export function Skill({ skill, layout }) {
+  const color = (level) => level <= skill.level ? layout.skill.color : '#bdbdbd'
   console.log(skill)
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

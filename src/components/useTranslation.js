@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
-
 const en = {
   header: 'Header',
   basic: 'Paragraph',
   title: 'Titles',
   skill: 'Skills',
+  label: 'Labels',
   fontFamily: 'Font',
+  fontWeight: 'Weight',
   color: 'Color',
   background: 'Background',
   fontSize: 'Size',
@@ -16,14 +16,19 @@ const en = {
   import: 'Import',
   export: 'Export',
   skillLevelsText: 'Description of Skill Levels',
-  textFields: 'Text Fields'
+  textFields: 'Text Fields',
+  introduction: 'Build a fast cv by entering your information, skills and studies. Customize the layout and print into PDF.',
+  saved_to_local_storage: '(saved to local storage)',
+  reset : 'Reset layout'
 }
 const fi = {
   header: 'Ylätunniste',
   basic: 'Leipäteksti',
   title: 'Otsikot',
   skill: 'Taidot',
+  label: 'Avainsanat',
   fontFamily: 'Fontti',
+  fontWeight: 'Paksuus',
   color: 'Väri',
   background: 'Tausta',
   fontSize: 'Koko',
@@ -34,7 +39,10 @@ const fi = {
   import: 'Tuo',
   export: 'Vie',
   skillLevelsText: 'Taitotasojen kuvaus',
-  textFields: 'Vakiotekstit'
+  textFields: 'Vakiotekstit',
+  introduction: 'Tee pika cv syöttämällä tiedot, taidot, opinnot. Säädä ulkoasu, ja tulosta PDF-tiedostoon.',
+  saved_to_local_storage: '(tallentuu local storageen)',
+  reset: 'Oletusvalinnat'
 
 }
 export function useTranslation(language) {
