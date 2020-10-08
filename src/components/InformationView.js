@@ -25,7 +25,7 @@ export const emptyInformation = {
 }
 
 export function InformationView ({information, setInformation, save}) {
-  const photo = useRef()
+  const photo = useRef(null)
   
   const change = (field, item) => {
     const index = information[field].findIndex(h => h.id === item.id)
@@ -84,15 +84,18 @@ export function InformationView ({information, setInformation, save}) {
         <Columns>
           <Columns.Column style={{display: 'flex', justifyItems:'flex-start'}}>
             <Field>
-              <Label for={photo}>Valokuva (valitse tiedosto)</Label>
+              <Label htmlFor={photo}>Valokuva (valitse tiedosto)</Label>
+              {information.photo}
               <Control>
-                <input ref={photo} type="file" value={information.photo} onChange={(e) => {
+                <button onClick={(e) => { e.preventDefault(); photo.current.click()}}>ab</button>
+                <input id="photopicker" ref={photo} type="file" autoComplete="off" onChange={(e) => {
+                  console.log(e)
                   e.preventDefault()
                   const reader = new FileReader()
                   reader.readAsDataURL(photo.current.files[0])
                   reader.onload = () => setInformation({...information, photoImage: reader.result })
                 }}
-                icon={<Icon icon='upload' />} boxed placeholder='Textarea' />
+                /* icon={<Icon icon='upload' />} boxed placeholder='Textarea'*/ />
               </Control>
             </Field>
             <Image size={128} src={information.photoImage} style={{marginLeft:'3em'}}/>

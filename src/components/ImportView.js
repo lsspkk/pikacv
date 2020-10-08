@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import '../App.scss'
 import 'react-bulma-components/dist/react-bulma-components.min.css'
 import { Field, Label, Control, InputFile, Radio } from 'react-bulma-components/lib/components/form'
@@ -22,9 +22,11 @@ export function ImportView({ setLayout, setInformation }) {
   const [readLayout, setReadLayout] = useState('')
   const [readInformation, setReadInformation] = useState('')
   const [canImport, setCanImport] = useState(false)
-  const importInput = useRef()
+  const importInput = useRef(null)
+
 
   const readFile = (fileContent) => {
+    console.log(fileContent)
     try {
       setError('')
       setReadLayout('')
@@ -84,14 +86,14 @@ export function ImportView({ setLayout, setInformation }) {
         <form onSubmit={()=> console.log(importInput.current.files[0].name)}>
         <Label onClick={(e) => importInput.current.click()}>{t('load_from_file')}</Label>
         <Control>
-          <input ref={importInput} value='' type="file" onChange={(e) => {
-            console.log(e.target)
-            e.preventDefault()
-            const reader = new FileReader()
-            reader.readAsDataURL(importInput.current.files[0])
-            reader.onload = (e) => readFile(e.target.result)
-          }}
-            />
+        <InputFile ref={importInput} autoComplete="off" onChange={(e) => {
+                  console.log(e)
+                  e.preventDefault()
+                  const reader = new FileReader()
+                  reader.readAsDataURL(e.inputField.files[0])
+                  reader.onload = () => readFile(reader.result)
+                }}
+                icon={<Icon icon='upload' />} boxed placeholder='Textarea' />
             <Button type="submit">Yea</Button>
         </Control>
         </form>
