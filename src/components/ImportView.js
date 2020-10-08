@@ -84,9 +84,9 @@ export function ImportView({ setLayout, setInformation }) {
       </Field>
       <Field>
         <form onSubmit={()=> console.log(importInput.current.files[0].name)}>
-        <Label onClick={(e) => importInput.current.click()}>{t('load_from_file')}</Label>
+        <Label>{t('load_from_file')}</Label>
         <Control>
-        <InputFile ref={importInput} autoComplete="off" onChange={(e) => {
+        <InputFile ref={importInput} onChange={(e) => {
                   console.log(e)
                   e.preventDefault()
                   const reader = new FileReader()
@@ -94,7 +94,6 @@ export function ImportView({ setLayout, setInformation }) {
                   reader.onload = () => readFile(reader.result)
                 }}
                 icon={<Icon icon='upload' />} boxed placeholder='Textarea' />
-            <Button type="submit">Yea</Button>
         </Control>
         </form>
       </Field>

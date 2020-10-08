@@ -87,15 +87,14 @@ export function InformationView ({information, setInformation, save}) {
               <Label htmlFor={photo}>Valokuva (valitse tiedosto)</Label>
               {information.photo}
               <Control>
-                <button onClick={(e) => { e.preventDefault(); photo.current.click()}}>ab</button>
-                <input id="photopicker" ref={photo} type="file" autoComplete="off" onChange={(e) => {
+                <InputFile ref={photo} type="file" onChange={(e) => {
                   console.log(e)
                   e.preventDefault()
                   const reader = new FileReader()
                   reader.readAsDataURL(photo.current.files[0])
                   reader.onload = () => setInformation({...information, photoImage: reader.result })
                 }}
-                /* icon={<Icon icon='upload' />} boxed placeholder='Textarea'*/ />
+                icon={<Icon icon='upload' />} boxed placeholder='Textarea' />
               </Control>
             </Field>
             <Image size={128} src={information.photoImage} style={{marginLeft:'3em'}}/>
