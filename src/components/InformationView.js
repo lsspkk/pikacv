@@ -24,7 +24,7 @@ export const emptyInformation = {
   education: []
 }
 
-export function Information ({information, setInformation, save}) {
+export function InformationView ({information, setInformation, save}) {
   const photo = useRef()
   
   const change = (field, item) => {
@@ -84,11 +84,12 @@ export function Information ({information, setInformation, save}) {
         <Columns>
           <Columns.Column style={{display: 'flex', justifyItems:'flex-start'}}>
             <Field>
-              <Label>Valokuva (valitse tiedosto)</Label>
+              <Label for={photo}>Valokuva (valitse tiedosto)</Label>
               <Control>
-                <InputFile ref={photo} value={information.photo} onChange={(e) => {
+                <input ref={photo} type="file" value={information.photo} onChange={(e) => {
+                  e.preventDefault()
                   const reader = new FileReader()
-                  reader.readAsDataURL(e.target.files[0])
+                  reader.readAsDataURL(photo.current.files[0])
                   reader.onload = () => setInformation({...information, photoImage: reader.result })
                 }}
                 icon={<Icon icon='upload' />} boxed placeholder='Textarea' />

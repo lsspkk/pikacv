@@ -6,7 +6,7 @@ import Container from 'react-bulma-components/lib/components/container'
 import Button from 'react-bulma-components/lib/components/button'
 import Columns from 'react-bulma-components/lib/components/columns'
 import { Header } from './Header'
-import { PikaCV } from './PikaCV'
+import { CvView } from './CvView'
 import { useTranslation } from './useTranslation'
 
 export const defaultLayout = {
@@ -35,7 +35,7 @@ export const defaultLayout = {
 }]
 }
 
-export function Layout ({layout, setLayout, information, save}) {
+export function LayoutView ({layout, setLayout, information, save}) {
   const t = useTranslation('fi')
   const change = (group, key, value) => {
     let updatedGroup = {...layout[group]}
@@ -92,7 +92,7 @@ export function Layout ({layout, setLayout, information, save}) {
         </Field>
       </Columns.Column>
       <Columns.Column style={{flex: '7'}}>
-        <PikaCV layout={layout} information={information} />
+        <CvView layout={layout} information={information} />
       </Columns.Column>
 
     </Columns>

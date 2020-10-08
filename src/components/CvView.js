@@ -10,7 +10,7 @@ const sumStyle = {
   whiteSpace: 'pre-line'
 }
 
-export function PikaCV ({layout, information}) {
+export function CvView ({layout, information}) {
   const sortSkills = (a,b) => {
     const level = (b.level - a.level)
     return level != 0 ? level : b.name > a.name ? -1 : a.name > b.name ? 1 : 0

@@ -11,10 +11,12 @@ import {
   Switch,
   Route} from 'react-router-dom'
 import constants from 'react-bulma-components/lib/constants'
-import { Information, emptyInformation } from './components/Information'
-import { Layout, defaultLayout } from './components/Layout'
-import { PikaCV } from './components/PikaCV'
+import { InformationView, emptyInformation } from './components/InformationView'
+import { LayoutView, defaultLayout } from './components/LayoutView'
+import { CvView } from './components/CvView'
 import { useTranslation } from './components/useTranslation'
+import { ExportView } from 'components/ExportView'
+import { ImportView } from 'components/ImportView'
 
 const fullScreenStyle = {
   position: 'absolute',
@@ -93,24 +95,24 @@ function App () {
           </Container>
           </Route>
           <Route path='/information'>
-            <Information save={save} information={information} setInformation={setInformation} />
+            <InformationView save={save} information={information} setInformation={setInformation} />
           </Route>
           <Route path='/layout'>
-            <Layout save={save} layout={layout} setLayout={setLayout} information={information} />
+            <LayoutView save={save} layout={layout} setLayout={setLayout} information={information} />
           </Route>
           <Route path='/cv'>
             <div style={fullScreenStyle}>
-              <PikaCV information={information} layout={layout} />
+              <CvView information={information} layout={layout} />
             </div>
           </Route>
           <Route path='/import'>
           <Container>
-            Kesken
+            <ImportView setInformation={setInformation} setLayout={setLayout} />
             </Container>
           </Route>
           <Route path='/export'>
           <Container>
-            Kesken
+            <ExportView information={information} layout={layout}/>
             </Container>
           </Route>
         </Switch>
