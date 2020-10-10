@@ -1,8 +1,23 @@
-# PIKA CV
+# PIKA CV / FAST CV
+
+Using [React Bulma Components] (https://couds.github.io/react-bulma-components/?path=/story/form--default)
 
 
-https://couds.github.io/react-bulma-components/?path=/story/form--default
+# TODO
 
+- check translations
+- fix return from fullpage layout
+- allow use of image from URL
+- use svg or thick border as header background color
+- add some google fonts
+- add print layout control: new page after selected sections
+- add zipped url export
+- add zipped url load, and show cv
+- add web layout for viewing
+- add backend that uses headless chrome to create pdf file, so user can just click to save
+  (security IP-based one time in an hour)
+- add backend that uses webcam and makes CSV with simpler choises like https://www.vectorizer.io
+- add CSV color styling based on chosen header colors
 
 
 

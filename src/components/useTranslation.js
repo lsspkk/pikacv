@@ -41,7 +41,7 @@ const en = {
   address_phone_email_placeholder : 'SomeSt 1&#10;20100 Turku&#10;045 11002200&#10;some@email.com',
   summary : 'Summary',
   summary_placeholder: 'Your most essential abilities, achievements, current activity etc.',
-  workhistory: 'Exprerience',
+  workhistory: 'Experience',
   skills: 'Skills',
   single_skill : 'Skill',
   education: 'Education',
