@@ -8,44 +8,52 @@ import Icon from 'react-bulma-components/lib/components/icon'
 import Columns from 'react-bulma-components/lib/components/columns'
 import { Header } from './Header'
 import { useTranslation } from './useTranslation'
+import {
+  useHistory
+} from 'react-router-dom'
 
 const small100 = {
-  width: '90vw',
+  width: '100%',
   fontSize: '0.6em',
   height: '20em'
 }
 
 export function ImportView({ setLayout, setInformation }) {
-  const t = useTranslation('fi')
+  const history = useHistory()
+  const { t } = useTranslation()
   const [option, setOption] = useState('both')
   const [error, setError] = useState('')
-  const [readLayout, setReadLayout] = useState('')
-  const [readInformation, setReadInformation] = useState('')
+  const [readLayout, setReadLayout] = useState({})
+  const [readInformation, setReadInformation] = useState({})
   const [canImport, setCanImport] = useState(false)
   const importInput = useRef(null)
 
 
-  const readFile = (fileContent) => {
-    console.log(fileContent)
+  const readFile = (file) => {
     try {
       setError('')
-      setReadLayout('')
-      setReadInformation('')
-      const data = JSON.parse(fileContent)
-      if (option !== 'information') {
-        if (data.layout === undefined) throw new Error(t('error_on_read_file_field') + 'layout')
-        setReadLayout(data.layout)
-      }
-      if (option !== 'layout') {
-        if (data.information === undefined) throw new Error(t('error_on_read_file_field') + 'layout')
-        setReadInformation(data.information)
-      }
-      setCanImport(true)
+      setReadLayout({})
+      setReadInformation({})
+      const reader = new FileReader()
+      reader.readAsText(file)
+      reader.onload = () => readContent(reader.result)
     } catch (error) {
       setCanImport(false)
       console.log(error)
       showError(error)
     }
+  }
+  const readContent = (fileContent) => {
+    const data = JSON.parse(fileContent)
+    if (option !== 'information') {
+      if (data.layout === undefined) throw new Error(t('error_on_read_file_field') + 'layout')
+      setReadLayout(data.layout)
+    }
+    if (option !== 'layout') {
+      if (data.information === undefined) throw new Error(t('error_on_read_file_field') + 'layout')
+      setReadInformation(data.information)
+    }
+    setCanImport(true)
   }
   const showError = (error) => {
     setError(error)
@@ -55,47 +63,33 @@ export function ImportView({ setLayout, setInformation }) {
     if (option !== newValue) {
       setOption(newValue)
       setCanImport(false)
-      setReadInformation('')
-      setReadLayout('')
+      setReadInformation({})
+      setReadLayout({})
     }
   }
-  const onImport = () => {
+  const onImport = async () => {
     if (option !== 'information') {
-      setLayout(readLayout)
+      await setLayout({ ...readLayout })
     }
     if (option !== 'layout') {
-      setInformation(readInformation)
+      await setInformation({ ...readInformation })
     }
     setCanImport(false)
-    setReadInformation('')
-    setReadLayout('')
+    setReadInformation({})
+    setReadLayout({})
+    history.push('/layout')
   }
-  console.log(importInput)
+  const readLayoutEmpty = Object.keys(readLayout).length === 0
+  const readInformationEmpty = Object.keys(readInformation).length === 0
+
   return (
     <Container style={{ margin: '1em' }}>
-      <Header>{t('choose_what_to_import')}</Header>
-      <Field className="is-horizontal" style={{ maxWidth: '30em', margin: '1em 3em', display: 'flex', alignContent: 'flex-end', justifyItems: 'center' }}>
-        <Label className="field-label">{t('information')}</Label>
-        <Radio name='option' className="field-body" checked={option === 'information'} onChange={() => setChangedOption('information')} />
-        <Label className="field-label">{t('layout')}</Label>
-        <Radio name='option' className="field-body" checked={option === 'layout'} onChange={() => setChangedOption('layout')} />
-        <Label className="field-label">{t('both')}</Label>
-        <Radio name='option' className="field-body" checked={option === 'both'} onChange={() => setChangedOption('both')} />
-      </Field>
       <Field>
-        <form onSubmit={()=> console.log(importInput.current.files[0].name)}>
         <Label>{t('load_from_file')}</Label>
         <Control>
-        <InputFile ref={importInput} onChange={(e) => {
-                  console.log(e)
-                  e.preventDefault()
-                  const reader = new FileReader()
-                  reader.readAsDataURL(e.inputField.files[0])
-                  reader.onload = () => readFile(reader.result)
-                }}
-                icon={<Icon icon='upload' />} boxed placeholder='Textarea' />
+          <InputFile ref={importInput} onChange={(e) => readFile(e.target.files[0])}
+            label={t('choose_a_file')} icon={<Icon icon='upload' />} boxed placeholder='Textarea' />
         </Control>
-        </form>
       </Field>
 
 
@@ -105,10 +99,10 @@ export function ImportView({ setLayout, setInformation }) {
             {error}
           </Columns.column>
         }
-        {option !== 'layout' &&
+        {(!readLayoutEmpty || !readInformationEmpty) && <>
           <Columns.Column size={option === 'both' ? 6 : 12}>
 
-            <Header>{t('imported_information')}</Header><br />
+            <Header>{t('read_information')}</Header><br />
             <pre style={small100}>
               {JSON.stringify(readInformation, '', 2)}
             </pre>
@@ -116,23 +110,45 @@ export function ImportView({ setLayout, setInformation }) {
 
 
           </Columns.Column>
-        }
-        {option !== 'information' &&
           <Columns.Column size={option === 'both' ? 6 : 12}>
 
 
-            <Header>{t('imported_layout')}</Header><br />
+            <Header>{t('read_layout')}</Header><br />
             <pre style={small100}>
               {JSON.stringify(readLayout, '', 2)}
             </pre>
 
           </Columns.Column>
+        </>
+
+        }
+        {canImport &&
+          <>
+            <Columns.Column size={12}>
+              <Header>{t('choose_what_to_import')}</Header>
+            </Columns.Column>
+            <Columns.Column>
+              <Control className="" style={{ maxWidth: '30em', margin: '1em 3em', display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
+                <Radio name='option' className="field-body" checked={option === 'information'} onClick={(e) => setOption('information')}>
+                  {t('information')}
+                </Radio>
+                <Radio name='option' className="field-body" checked={option === 'layout'} onClick={(e) => setOption('layout')}>
+                  {t('layout')}
+                </Radio>
+                <Radio name='option' className="field-body" checked={option === 'both'} onClick={(e) => setOption('both')}>
+                  {t('both')}
+                </Radio>
+              </Control>
+            </Columns.Column>
+            <Columns.Column>
+              <Field >
+                <Button color='info' onClick={() => onImport()}>{t('import')}</Button>
+              </Field>
+            </Columns.Column>
+          </>
         }
       </Columns>
 
-      { canImport &&
-        <Button color='info' onClick={() => onImport()}>{t('import') + t(option)}</Button>
-      }
     </Container>
   )
 }

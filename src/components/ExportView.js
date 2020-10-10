@@ -1,22 +1,21 @@
 import React, { useState } from 'react'
 import '../App.scss'
 import 'react-bulma-components/dist/react-bulma-components.min.css'
-import { Field, Label, Input, Textarea, Radio } from 'react-bulma-components/lib/components/form'
+import { Field, Control, Radio } from 'react-bulma-components/lib/components/form'
 import Container from 'react-bulma-components/lib/components/container'
 import Button from 'react-bulma-components/lib/components/button'
 import Columns from 'react-bulma-components/lib/components/columns'
 import { Header } from './Header'
-import { CvView } from './CvView'
 import { useTranslation } from './useTranslation'
 
 const small100 = {
-  width: '90vw',
+  width: '100%',
   fontSize: '0.6em',
   height: '20em'
 }
 
 export function ExportView({ layout, information }) {
-  const t = useTranslation('fi')
+  const { t } = useTranslation()
   const [option, setOption] = useState('both')
 
   const fileNames = {
@@ -40,38 +39,48 @@ export function ExportView({ layout, information }) {
 
 
   return (
-    <Container style={{margin:'1em'}}>
+    <Container style={{ margin: '1em' }}>
       <Columns>
-        <Columns.Column >
+        <Columns.Column size={6} >
 
-          <Header>{t('information')}</Header><br/>
-          <pre disabled="true" style={small100}>
+          <Header>{t('information')}</Header><br />
+          <pre style={small100}>
             {JSON.stringify(information, '', 2)}
           </pre>
 
         </Columns.Column>
-        <Columns.Column>
+        <Columns.Column size={6}>
 
 
-          <Header>{t('layout')}</Header><br/>
-          <pre disabled="true" style={small100}>
+          <Header>{t('layout')}</Header><br />
+          <pre style={small100}>
             {JSON.stringify(layout, '', 2)}
           </pre>
 
         </Columns.Column>
+        <Columns.Column size={12}>
+          <Header>{t('choose_what_to_export')}</Header>
+        </Columns.Column>
+        <Columns.Column>
+          <Control className="" style={{ maxWidth: '30em', margin: '1em 3em', display: 'flex', alignContent: 'center', justifyContent: 'center' }}>
+            <Radio name='option' className="field-body" checked={option === 'information'} onClick={(e) => setOption('information')}>
+              {t('information')}
+            </Radio>
+            <Radio name='option' className="field-body" checked={option === 'layout'} onClick={(e) => setOption('layout')}>
+            {t('layout')}
+            </Radio>
+            <Radio name='option' className="field-body" checked={option === 'both'} onClick={(e) => setOption('both')}>
+            {t('both')}
+            </Radio>
+          </Control>
+        </Columns.Column>
+        <Columns.Column>
+          <Field >
+            <Button color='info' onClick={() => downloadFile()}>{t('save_to_file')}</Button>
+            <div style={{ fontSize: '70%', margin: '0.5em 0 1em' }}>{t('saved_to_local_file')} - {fileName()} </div>
+          </Field>
+        </Columns.Column>
       </Columns>
-      <Header>{t('choose_what_to_export')}</Header>
-      <Field className="is-horizontal" style={{maxWidth:'30em',margin:'1em 3em', display:'flex', alignContent:'flex-end',justifyItems:'center'}}>
-        <Label className="field-label">{t('information')}</Label>
-        <Radio  className="field-body"checked={option === 'information'} onClick={(e) => setOption('information')} />
-        <Label className="field-label">{t('layout')}</Label>
-        <Radio  className="field-body"checked={option === 'layout'} onClick={(e) => setOption('layout')} />
-        <Label className="field-label">{t('both')}</Label>
-        <Radio  className="field-body"checked={option === 'both'} onClick={(e) => setOption('both')} />
-      </Field>
-      <Button color='info' onClick={() => downloadFile()}>{t('save_to_file')}</Button>
-      <div style={{ fontSize: '70%', margin: '0.5em 0 1em' }}>{t('saved_to_local_file')} - {fileName()} </div>
-
     </Container>
   )
 }

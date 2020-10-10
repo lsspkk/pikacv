@@ -36,7 +36,7 @@ export const defaultLayout = {
 }
 
 export function LayoutView ({layout, setLayout, information, save}) {
-  const t = useTranslation('fi')
+  const {t} = useTranslation()
   const change = (group, key, value) => {
     let updatedGroup = {...layout[group]}
     updatedGroup[key] = value
@@ -61,8 +61,8 @@ export function LayoutView ({layout, setLayout, information, save}) {
 <Container>
       <Columns>
       <Columns.Column style={{flex: '1'}}>
-        <Header>Ulkoasu</Header>
-      <Button color='info' onClick={() => save()}>Tallenna</Button>
+        <Header>{t('layout')}</Header>
+      <Button color='info' onClick={() => save()}>{t('save')}</Button>
             <div style={{fontSize:'70%', margin: '0.5em 0 1em'}}>{t('saved_to_local_storage')}</div>
 
 
@@ -88,6 +88,7 @@ export function LayoutView ({layout, setLayout, information, save}) {
 
         <Field style={{margin: '4em 0em'}}>
         <Button color='danger' onClick={() => setLayout(defaultLayout)}>{t('reset')}</Button>
+        <div style={{fontSize:'70%', margin: '0.5em 0 1em'}}>{t('default_layout_and_textfields')}</div>
 
         </Field>
       </Columns.Column>

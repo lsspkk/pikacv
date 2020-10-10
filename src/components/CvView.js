@@ -3,6 +3,7 @@ import { Section } from 'react-bulma-components'
 import Columns from 'react-bulma-components/lib/components/columns'
 import { Skill } from './Skill'
 import { Header } from './Header'
+import { useTranslation } from './useTranslation'
 
 
 const sumStyle = {
@@ -11,6 +12,7 @@ const sumStyle = {
 }
 
 export function CvView ({layout, information}) {
+  const { t } = useTranslation()
   const sortSkills = (a,b) => {
     const level = (b.level - a.level)
     return level != 0 ? level : b.name > a.name ? -1 : a.name > b.name ? 1 : 0
@@ -28,20 +30,20 @@ export function CvView ({layout, information}) {
         </Section>
       </div>
       <div style={{margin: '1em 0 2em'}} className='cv-summary' >
-        <div style={{...layout.title,marginTop:'1em'}}>Information</div>
-        <div style={sumStyle}>{information.summary}</div>
+        <div style={{...layout.title,marginTop:'1em'}}>{t('information')}</div>
+        <div style={sumStyle}>{information.summary.split('\n').map(t => <>{t}<br/></>)}</div>
       </div>
 
-      <div style={{margin: '1em 0 2em'}} className='cv-workhistory' >
-      <div style={{...layout.title,margin:'1em 0 1em'}}>Experience</div>
+      <div style={{margin: '1em 0 2em',breakAfter: 'page'}} className='cv-workhistory' >
+      <div style={{...layout.title,margin:'1em 0 1em'}}>{t('workhistory')}</div>
         { information.workhistory.map(historyitem => (
           <Columns key={JSON.stringify(historyitem)}>
             <Columns.Column size={8} >
             <div className='company'>
-              <span  style={{...layout.label}} >Company</span> {historyitem.company}
+              <span  style={{...layout.label}} >{t('company')}</span> {historyitem.company}
               </div>
               <div className='role'>
-              <span  style={{...layout.label}} >Role</span> {historyitem.role}
+              <span  style={{...layout.label}} >{t('role')}</span> {historyitem.role}
               </div>
               <div className='description'>
               {historyitem.description}
@@ -59,7 +61,7 @@ export function CvView ({layout, information}) {
       </div>
 
       <div style={{margin: '1em 0 2em'}} className='cv-skills' >
-        <div style={{...layout.title,margin:'1em 0 1em'}}>Skills</div>
+        <div style={{...layout.title,margin:'1em 0 1em'}}>{t('skills')}</div>
         <Columns>
         { information.skills.sort(sortSkills).map(skill => 
         <Columns.Column size={layout.skill.columnSize}>
@@ -76,7 +78,7 @@ export function CvView ({layout, information}) {
       </div>
 
       <div style={{margin: '1em 0 2em'}} className='cv-education' >
-      <div style={{...layout.title,margin:'1em 0 1em'}}>Education</div>
+      <div style={{...layout.title,margin:'1em 0 1em'}}>{t('education')}</div>
         { information.education.map(item => (
           <Columns key={JSON.stringify(item)}>
             <Columns.Column size={8} >

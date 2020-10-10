@@ -6,16 +6,17 @@ import Button from 'react-bulma-components/lib/components/button'
 import Columns from 'react-bulma-components/lib/components/columns'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash, faStar } from '@fortawesome/free-solid-svg-icons'
-
+import { useTranslation } from './useTranslation'
 
 export function SkillInput({ skill, change, remove }) {
+  const {t} = useTranslation()
   const color = (level) => level <= skill.level ? '#3298dc' : '#bdbdbd'
   return (
     <div style={{ flex: '1', minWidth: '25rem', flexGrow: '0', margin: '1em 0' }}>
       <Columns style={{ alignItems: 'flex-end' }}>
         <Columns.Column >
           <Field>
-            <Label>Taito</Label>
+            <Label>{t('single_skill')}</Label>
             <Input type='text' placeholder='Java/React' value={skill.name}
               onChange={(e) => change('skills', { ...skill, name: e.target.value })} />
           </Field>
