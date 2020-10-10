@@ -6,7 +6,7 @@ import Container from 'react-bulma-components/lib/components/container'
 import Button from 'react-bulma-components/lib/components/button'
 import Columns from 'react-bulma-components/lib/components/columns'
 import { Header } from './Header'
-import { PikaCV } from './PikaCV'
+import { CvView } from './CvView'
 import { useTranslation } from './useTranslation'
 
 export const defaultLayout = {
@@ -35,8 +35,8 @@ export const defaultLayout = {
 }]
 }
 
-export function Layout ({layout, setLayout, information, save}) {
-  const t = useTranslation('fi')
+export function LayoutView ({layout, setLayout, information, save}) {
+  const {t} = useTranslation()
   const change = (group, key, value) => {
     let updatedGroup = {...layout[group]}
     updatedGroup[key] = value
@@ -61,8 +61,8 @@ export function Layout ({layout, setLayout, information, save}) {
 <Container>
       <Columns>
       <Columns.Column style={{flex: '1'}}>
-        <Header>Ulkoasu</Header>
-      <Button color='info' onClick={() => save()}>Tallenna</Button>
+        <Header>{t('layout')}</Header>
+      <Button color='info' onClick={() => save()}>{t('save')}</Button>
             <div style={{fontSize:'70%', margin: '0.5em 0 1em'}}>{t('saved_to_local_storage')}</div>
 
 
@@ -88,11 +88,12 @@ export function Layout ({layout, setLayout, information, save}) {
 
         <Field style={{margin: '4em 0em'}}>
         <Button color='danger' onClick={() => setLayout(defaultLayout)}>{t('reset')}</Button>
+        <div style={{fontSize:'70%', margin: '0.5em 0 1em'}}>{t('default_layout_and_textfields')}</div>
 
         </Field>
       </Columns.Column>
       <Columns.Column style={{flex: '7'}}>
-        <PikaCV layout={layout} information={information} />
+        <CvView layout={layout} information={information} />
       </Columns.Column>
 
     </Columns>
