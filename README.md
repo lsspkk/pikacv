@@ -1,6 +1,6 @@
 # PIKA CV / FAST CV
 
-Using [React Bulma Components] (https://couds.github.io/react-bulma-components/?path=/story/form--default)
+Using [React Bulma Components](https://couds.github.io/react-bulma-components/?path=/story/form--default)
 
 
 # TODO
