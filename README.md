@@ -5,7 +5,6 @@ Using [React Bulma Components](https://couds.github.io/react-bulma-components/?p
 
 # TODO
 
-- check translations
 - allow use of image from URL
 - use svg or thick border as header background color
 - add some google fonts

@@ -23,7 +23,7 @@ export function SkillInput({ skill, change, remove }) {
         </Columns.Column>
         <Columns.Column >
           <Field>
-            <Label>Taso</Label>
+            <Label>{t('level')}</Label>
             <div style={{ padding: '0.5em 0' }}>
               <FontAwesomeIcon icon={faStar}
                 color={color(1)}
