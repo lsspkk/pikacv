@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef} from 'react'
 import '../App.scss'
 import 'react-bulma-components/dist/react-bulma-components.min.css'
 import { Field, Label, Control, InputFile, Radio } from 'react-bulma-components/lib/components/form'
@@ -58,14 +58,6 @@ export function ImportView({ setLayout, setInformation }) {
   const showError = (error) => {
     setError(error)
     window.setTimeout(() => setError(''), 4000)
-  }
-  const setChangedOption = (newValue) => {
-    if (option !== newValue) {
-      setOption(newValue)
-      setCanImport(false)
-      setReadInformation({})
-      setReadLayout({})
-    }
   }
   const onImport = async () => {
     if (option !== 'information') {

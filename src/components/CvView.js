@@ -15,7 +15,7 @@ export function CvView ({layout, information}) {
   const { t } = useTranslation()
   const sortSkills = (a,b) => {
     const level = (b.level - a.level)
-    return level != 0 ? level : b.name > a.name ? -1 : a.name > b.name ? 1 : 0
+    return level !== 0 ? level : b.name > a.name ? -1 : a.name > b.name ? 1 : 0
   }
 
   const skillLevelsText = layout.textFields.filter(field => field.name === 'skillLevelsText' && field.language === 'en')
@@ -23,7 +23,7 @@ export function CvView ({layout, information}) {
   return (
     <div style={layout.basic}>
       <div className='cv-header' style={{...layout.header, height: '30%', minHeight: '300px', display: 'flex'}}>
-        <img src={information.photoImage} style={{height: '300px'}} />
+        <img src={information.photoImage} style={{height: '300px'}} alt={information.name}/>
         <Section>
           <Header>{information.name}</Header>
           <p style={{whiteSpace: 'pre-line'}}>{information.contact}</p>

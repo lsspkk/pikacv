@@ -1,4 +1,4 @@
-import React, { useState, useEffect, renderAs } from 'react'
+import React, { useState, useEffect} from 'react'
 import logo from './logo.svg'
 import './App.scss'
 import 'react-bulma-components/dist/react-bulma-components.min.css'
