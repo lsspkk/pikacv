@@ -55,7 +55,7 @@ function App() {
           >
             <Navbar.Brand>
               <Link to="/" className="navbar-item" style={{ width: '10em' }} color={constants.COLORS.INFO} renderAs='a' href='#'>
-                <img src={logo} />
+                <img src={logo} alt="pikacv logo" />
                 <span style={{ fontWeight: 'bold', fontSize: '1.5rem', paddingLeft: '0.4em' }}>pika CV</span>
               </Link>
               <Navbar.Burger />
