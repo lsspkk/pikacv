@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import logo from './logo.svg'
 import './App.scss'
 import 'react-bulma-components/dist/react-bulma-components.min.css'
@@ -43,44 +43,46 @@ function App() {
     window.localStorage.setItem('pikacv', JSON.stringify({ information: information, layout: layout }))
   }
   const otherLanguage = currentLanguage() === 'fi' ? 'en' : 'fi'
-  const isCvView = window.location.pathname === '/cv'
   return (
     <Router>
       <div>
-        {!isCvView &&
-          <Navbar
-            color='info'
-            active={burger}
-            onClick={() => setBurger(!burger)}
-          >
-            <Navbar.Brand>
-              <Link to="/" className="navbar-item" style={{ width: '10em' }} color={constants.COLORS.INFO} renderAs='a' href='#'>
-                <img src={logo} alt="pikacv logo" />
-                <span style={{ fontWeight: 'bold', fontSize: '1.5rem', paddingLeft: '0.4em' }}>pika CV</span>
-              </Link>
-              <Navbar.Burger />
-            </Navbar.Brand>
-            <Navbar.Menu color='info'>
-              <Navbar.Container>
-                <Link className="navbar-item"
-                  onClick={() => setLanguage(otherLanguage)}><FontAwesomeIcon size='2x' icon={faLanguage} /></Link>
-                <Link className="navbar-item" to='information'>{t('information')}</Link>
-                <Link className="navbar-item" to='/layout'>{t('layout')}</Link>
-                <Link className="navbar-item" to='/cv'>{t('make_cv')}</Link>
-              </Navbar.Container>
-              <Navbar.Container>
-              </Navbar.Container>
-              <Navbar.Container position='end'>
-                <Link className="navbar-item" to='/import'>
-                  {t('import')}
+        <Switch>
+          <Route path='/cv' />
+          <Route>
+            <Navbar
+              color='info'
+              active={burger}
+              onClick={() => setBurger(!burger)}
+            >
+              <Navbar.Brand>
+                <Link to="/" className="navbar-item" style={{ width: '10em' }} color={constants.COLORS.INFO} renderAs='a' href='#'>
+                  <img src={logo} alt="pikacv logo" />
+                  <span style={{ fontWeight: 'bold', fontSize: '1.5rem', paddingLeft: '0.4em' }}>pika CV</span>
                 </Link>
-                <Link className="navbar-item" to='/export'>
-                  {t('export')}
-                </Link>
-              </Navbar.Container>
-            </Navbar.Menu>
-          </Navbar>
-        }
+                <Navbar.Burger />
+              </Navbar.Brand>
+              <Navbar.Menu color='info'>
+                <Navbar.Container>
+                  <Link className="navbar-item"
+                    onClick={() => setLanguage(otherLanguage)}><FontAwesomeIcon size='2x' icon={faLanguage} /></Link>
+                  <Link className="navbar-item" to='information'>{t('information')}</Link>
+                  <Link className="navbar-item" to='/layout'>{t('layout')}</Link>
+                  <Link className="navbar-item" to='/cv'>{t('make_cv')}</Link>
+                </Navbar.Container>
+                <Navbar.Container>
+                </Navbar.Container>
+                <Navbar.Container position='end'>
+                  <Link className="navbar-item" to='/import'>
+                    {t('import')}
+                  </Link>
+                  <Link className="navbar-item" to='/export'>
+                    {t('export')}
+                  </Link>
+                </Navbar.Container>
+              </Navbar.Menu>
+            </Navbar>
+          </Route>
+        </Switch>
         <Switch>
           <Route exact path='/'>
             <Container style={{ minHeight: '60vh', margin: '3em' }}>
@@ -107,21 +109,25 @@ function App() {
             </Container>
           </Route>
         </Switch>
-        {!isCvView &&
-          <Footer>
-            <Container>
-              <Columns>
-                <Columns.Column size={6}>
-                  <p>Clone customize to your needs</p>
-                  <a href="https://github.com/lsspkk/pikacv">PikaCV - Github Repository</a>
-                </Columns.Column>
-                <Columns.Column size={6} style={{ textAlign: 'right' }}>
-                  2020<br />
+        <Switch>
+          <Route path='/cv' />
+          <Route>
+            <Footer>
+              <Container>
+                <Columns>
+                  <Columns.Column size={6}>
+                    <p>Clone customize to your needs</p>
+                    <a href="https://github.com/lsspkk/pikacv">PikaCV - Github Repository</a>
+                  </Columns.Column>
+                  <Columns.Column size={6} style={{ textAlign: 'right' }}>
+                    2020<br />
           10 hours of Autumn evenings
         </Columns.Column>
-              </Columns>
-            </Container>
-          </Footer>}
+                </Columns>
+              </Container>
+            </Footer>
+          </Route>
+        </Switch>
       </div>
     </Router>
   )
