@@ -20,8 +20,8 @@ export function ExportView({ layout, information }) {
 
   const fileNames = {
     both: 'cv_information_and_layout.json',
-    information: 'cv_layout.json',
-    layout: 'cv_information.json',
+    information: 'cv_information.json',
+    layout: 'cv_layout.json',
   }
   const fileName = () => fileNames[option]
   const downloadFile = () => {
