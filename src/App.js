@@ -28,16 +28,20 @@ function App() {
   const [burger, setBurger] = useState(false)
   const [information, setInformation] = useState(emptyInformation)
   const [layout, setLayout] = useState(defaultLayout)
+  const [loading, setLoading] = useState(true)
+
   useEffect(() => {
     const loaded = window.localStorage.getItem('pikacv')
     if (loaded) {
       const pikacv = JSON.parse(loaded)
       // add new information/layout fields from empty defaults
       pikacv.information && setInformation({ ...information, ...pikacv.information })
-      pikacv.layout && setLayout({ ...layout, ...pikacv.layout })
+
+      pikacv.layout && setLayout({ ...layout, ...pikacv.layout })      
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+  useEffect(() => setLoading(false), [layout])
 
   const save = () => {
     window.localStorage.setItem('pikacv', JSON.stringify({ information: information, layout: layout }))
@@ -55,7 +59,7 @@ function App() {
               onClick={() => setBurger(!burger)}
             >
               <Navbar.Brand>
-                <Link to="/" className="navbar-item" style={{ width: '10em' }} color={constants.COLORS.INFO} renderAs='a' href='#'>
+                <Link to="/" className="navbar-item" style={{ width: '10em' }} color={constants.COLORS.INFO} >
                   <img src={logo} alt="pikacv logo" />
                   <span style={{ fontWeight: 'bold', fontSize: '1.5rem', paddingLeft: '0.4em' }}>pika CV</span>
                 </Link>
@@ -63,7 +67,7 @@ function App() {
               </Navbar.Brand>
               <Navbar.Menu color='info'>
                 <Navbar.Container>
-                  <Link className="navbar-item"
+                  <Link className="navbar-item" to={'#'}
                     onClick={() => setLanguage(otherLanguage)}><FontAwesomeIcon size='2x' icon={faLanguage} /></Link>
                   <Link className="navbar-item" to='information'>{t('information')}</Link>
                   <Link className="navbar-item" to='/layout'>{t('layout')}</Link>
@@ -93,8 +97,10 @@ function App() {
             <InformationView save={save} information={information} setInformation={setInformation} />
           </Route>
           <Route path='/layout'>
+            { !loading &&
             <LayoutView save={save} layout={layout} setLayout={setLayout} information={information} />
-          </Route>
+            }
+            </Route>
           <Route path='/cv'>
             <CvView information={information} layout={layout} />
           </Route>

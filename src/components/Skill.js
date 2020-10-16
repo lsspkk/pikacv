@@ -66,7 +66,7 @@ export function SkillInput({ skill, change, remove }) {
 
 export function Skill({ skill, layout }) {
   const color = (level) => level <= skill.level ? layout.skill.color : '#bdbdbd'
-  console.log(skill)
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <div>
