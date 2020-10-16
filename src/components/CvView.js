@@ -11,6 +11,7 @@ const sumStyle = {
   whiteSpace: 'pre-line'
 }
 
+let uniqueId = 0
 export function CvView ({layout, information}) {
   const { t } = useTranslation()
   const sortSkills = (a,b) => {
@@ -21,23 +22,23 @@ export function CvView ({layout, information}) {
   const skillLevelsText = layout.textFields.filter(field => field.name === 'skillLevelsText' && field.language === 'en')
 
   return (
-    <div style={layout.basic}>
-      <div className='cv-header' style={{...layout.header, height: '30%', minHeight: '300px', display: 'flex'}}>
+    <div className="apply-font-basic" style={layout.basic}>
+      <div className='cv-header apply-font-header' style={{...layout.header, height: '30%', minHeight: '300px', display: 'flex'}}>
         <img src={information.photoImage} style={{height: '300px'}} alt={information.name}/>
         <Section>
-          <Header>{information.name}</Header>
+          <Header >{information.name}</Header>
           <p style={{whiteSpace: 'pre-line'}}>{information.contact}</p>
         </Section>
       </div>
-      <div style={{margin: '1em 0 2em'}} className='cv-summary' >
+      <div className="cv-summary" style={{margin: '1em 0 2em'}} >
         <div style={{...layout.title,marginTop:'1em'}}>{t('information')}</div>
-        <div style={sumStyle}>{information.summary.split('\n').map(t => <>{t}<br/></>)}</div>
+        <div style={sumStyle}>{information.summary.split('\n').map(t => <span key={'sp'+(uniqueId++)} >{t}<br/></span>)}</div>
       </div>
 
       <div style={{margin: '1em 0 2em',breakAfter: 'page'}} className='cv-workhistory' >
-      <div style={{...layout.title,margin:'1em 0 1em'}}>{t('workhistory')}</div>
+      <div className="apply-font-title" style={{...layout.title,margin:'1em 0 1em'}}>{t('workhistory')}</div>
         { information.workhistory.map(historyitem => (
-          <Columns key={JSON.stringify(historyitem)}>
+          <Columns key={'a' + (uniqueId++)}>
             <Columns.Column size={8} >
             <div className='company'>
               <span  style={{...layout.label}} >{t('company')}</span> {historyitem.company}
@@ -61,11 +62,11 @@ export function CvView ({layout, information}) {
       </div>
 
       <div style={{margin: '1em 0 2em'}} className='cv-skills' >
-        <div style={{...layout.title,margin:'1em 0 1em'}}>{t('skills')}</div>
+        <div className="apply-font-title"  style={{...layout.title,margin:'1em 0 1em'}}>{t('skills')}</div>
         <Columns>
         { information.skills.sort(sortSkills).map(skill => 
-        <Columns.Column size={layout.skill.columnSize}>
-        <Skill key={JSON.stringify(skill)} skill={skill} layout={layout}/>
+        <Columns.Column key={'b'+(uniqueId++)} size={layout.skill.columnSize}>
+        <Skill key={'c'+(uniqueId++)} skill={skill} layout={layout}/>
         </Columns.Column>
         ) }
         { skillLevelsText.length > 0 &&
@@ -78,9 +79,9 @@ export function CvView ({layout, information}) {
       </div>
 
       <div style={{margin: '1em 0 2em'}} className='cv-education' >
-      <div style={{...layout.title,margin:'1em 0 1em'}}>{t('education')}</div>
+      <div className="apply-font-title"  style={{...layout.title,margin:'1em 0 1em'}}>{t('education')}</div>
         { information.education.map(item => (
-          <Columns key={JSON.stringify(item)}>
+          <Columns key={'c'+(uniqueId++)}>
             <Columns.Column size={8} >
             <div className='school'>
               <span  style={{...layout.label}} >{item.school}</span>
