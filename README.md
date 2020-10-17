@@ -7,7 +7,6 @@ Using [React Bulma Components](https://couds.github.io/react-bulma-components/?p
 
 - allow use of image from URL
 - use svg or thick border as header background color
-- add some google fonts
 - add print layout control: new page after selected sections
 - add zipped url export
 - add zipped url load, and show cv

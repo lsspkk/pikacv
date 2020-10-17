@@ -11,7 +11,8 @@ import { useTranslation } from './useTranslation'
 import FontPicker from "font-picker-react"
 
 export const defaultLayout = {
-  header: { fontFamily: 'Open Sans', color: '#adbcaa', background: '#765f78' },
+  header: { fontFamily: 'Open Sans', color: '#adbcaa', background: '#765f78', fontSize: '110%'},
+  photo: { height: '200px'},
   basic: { fontFamily: 'Open Sans', color: '#222222' },
   title: { fontFamily: 'Open Sans', color: '#ad5463', fontSize: '2em' },
   label: { fontWeight: 'bold' },
@@ -90,7 +91,7 @@ export function LayoutView({ layout, setLayout, information, save }) {
       }
 
       }
-      sort="popularity"
+      sort="alphabet"
     />
   )
 

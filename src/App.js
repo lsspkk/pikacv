@@ -36,12 +36,19 @@ function App() {
       const pikacv = JSON.parse(loaded)
       // add new information/layout fields from empty defaults
       pikacv.information && setInformation({ ...information, ...pikacv.information })
-
-      pikacv.layout && setLayout({ ...layout, ...pikacv.layout })      
+      pikacv.layout && fillLayout(pikacv.layout)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   useEffect(() => setLoading(false), [layout])
+
+  const fillLayout = (loadedLayout) => {
+    let newLayout = { ...layout, ...loadedLayout }
+    for (const key of Object.keys(layout)) {
+      newLayout[key] = Array.isArray(newLayout[key]) ? [...loadedLayout[key]] : { ...layout[key], ...loadedLayout[key] }
+    }
+    setLayout(newLayout)
+  }
 
   const save = () => {
     window.localStorage.setItem('pikacv', JSON.stringify({ information: information, layout: layout }))
@@ -97,10 +104,10 @@ function App() {
             <InformationView save={save} information={information} setInformation={setInformation} />
           </Route>
           <Route path='/layout'>
-            { !loading &&
-            <LayoutView save={save} layout={layout} setLayout={setLayout} information={information} />
+            {!loading &&
+              <LayoutView save={save} layout={layout} setLayout={setLayout} information={information} />
             }
-            </Route>
+          </Route>
           <Route path='/cv'>
             <CvView information={information} layout={layout} />
           </Route>
@@ -127,7 +134,7 @@ function App() {
                   </Columns.Column>
                   <Columns.Column size={6} style={{ textAlign: 'right' }}>
                     2020<br />
-          10 hours of Autumn evenings
+          12 hours of Autumn evenings
         </Columns.Column>
                 </Columns>
               </Container>
