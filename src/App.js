@@ -42,13 +42,11 @@ function App() {
   }, [])
   useEffect(() => setLoading(false), [layout])
 
-
   const fillLayout = (loadedLayout) => {
     let newLayout = { ...layout, ...loadedLayout }
     for (const key of Object.keys(layout)) {
       newLayout[key] = Array.isArray(newLayout[key]) ? [...loadedLayout[key]] : { ...layout[key], ...loadedLayout[key] }
     }
-    console.log(newLayout)
     setLayout(newLayout)
   }
 
