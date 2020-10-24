@@ -2,7 +2,6 @@ import React from 'react'
 import { Section } from 'react-bulma-components'
 import Columns from 'react-bulma-components/lib/components/columns'
 import { Skill } from './Skill'
-import { Header } from './Header'
 import { useTranslation } from './useTranslation'
 
 
