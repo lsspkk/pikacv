@@ -82,7 +82,7 @@ export function LayoutView({ layout, setLayout, information, save }) {
   const renderPicker = (group, field) => (
     <FontPicker
       pickerId={group}
-      apiKey="AIzaSyCi4Sl15uKMMYB1i5xQYAHQQ7ffg4_xJC0"
+      apiKey={process.env.REACT_APP_GOOGLE_FONTS_KEY}
       activeFontFamily={font[group]}
       onChange={(nextFont) => {
         const newFont ={...font}       
