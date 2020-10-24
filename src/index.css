@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+div[id^="font-picker"] .dropdown-button,
+div[id^="font-picker"] ul {
+  background: #ffffff !important;
+}
+div[id^="font-picker"] ul li button:hover, div[id^="font-picker"] ul li button:focus,
+div[id^="font-picker"] .dropdown-button:hover, div[id^="font-picker"] .dropdown-button:focus {
+  background: #cfdae8 !important;
+}
