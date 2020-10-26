@@ -18,8 +18,5 @@ div[id^="font-picker"] ul {
 }
 div[id^="font-picker"] ul li button:hover, div[id^="font-picker"] ul li button:focus,
 div[id^="font-picker"] .dropdown-button:hover, div[id^="font-picker"] .dropdown-button:focus {
-  background: #d4e5ff !important;
-}
-div[id^="font-picker"] ul li button.active-font {
-  background: #d4e5ff !important;
+  background: #cfdae8 !important;
 }
