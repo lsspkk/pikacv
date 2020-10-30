@@ -17,19 +17,19 @@ export function Education({ education, change, remove }) {
     <Columns style={{ padding: '1em 0 ' }}>
       <Columns.Column size={8}>
         <Field className="is-horizontal">
-          <Label className="field-label">{t('school_organization')}School/Organization</Label>
+          <Label className="field-label">{t('school_organization')}</Label>
           <Input className="field-body" style={mw40} type='text' placeholder='School Name/Udemy/etc.' value={education.school}
             onChange={(e) => change('education', { ...education, school: e.target.value })} />
         </Field>
         <Field className="is-horizontal">
-          <Label className="field-label">{t('degree_description')}Degree/Description</Label>
+          <Label className="field-label">{t('degree_description')}</Label>
           <Input className="field-body" style={mw40} type='text' placeholder='Intermediate React/Master of Science' value={education.degree}
             onChange={(e) => change('education', { ...education, degree: e.target.value })} />
         </Field>
       </Columns.Column>
       <Columns.Column size={2} style={{justifySelf:'center'}}>
         <Field className="is-horizontal">
-          <Label className="field-label">{t('date')}Aika</Label>
+          <Label className="field-label">{t('date')}</Label>
           <Input className="field-body" style={mw40} type='text' placeholder='5.6.2020' value={education.date}
             onChange={(e) => change('education', { ...education, date: e.target.value })} />
         </Field>

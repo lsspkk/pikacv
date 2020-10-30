@@ -30,11 +30,7 @@ export function InformationView ({information, setInformation, save}) {
   const {t} = useTranslation()
 
   const change = (field, item) => {
-    const index = information[field].findIndex(h => h.id === item.id)
-    if( index === -1 ) {
-      return
-    }
-    const newValue = [...information[field].slice(0,index), item, ...information[field].slice(index+1, information.workhistory.length)]
+    const newValue = information[field].map(h => h.id === item.id ? item : h)
     let newInformation = {...information}
     newInformation[field] = newValue
     setInformation(newInformation)

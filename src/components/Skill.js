@@ -48,7 +48,7 @@ export function SkillInput({ skill, change, remove }) {
               <FontAwesomeIcon icon={faStar}
                 color={color(5)}
                 style={{ cursor: 'pointer' }}
-                onClick={() => change({ ...skill, level: 5 })}
+                onClick={() => change('skills', { ...skill, level: 5 })}
               />
             </div>
           </Field>
