@@ -6,7 +6,7 @@ import { useTranslation } from './useTranslation'
 
 
 const sumStyle = {
-  padding: '0.5em 0 2em',
+  padding: '0.5em 0 0',
   whiteSpace: 'pre-line'
 }
 
@@ -29,13 +29,13 @@ export function CvView({ layout, information }) {
           <p style={{ whiteSpace: 'pre-line' }}>{information.contact}</p>
         </div>
       </div>
-      <div className="cv-summary" style={{ margin: '1em 0 2em' }} >
+      <div className="cv-summary" style={{ margin: '1em 0 0' }} >
         <div style={{ ...layout.title, marginTop: '1em' }}>{t('information')}</div>
         <div style={sumStyle}>{information.summary.split('\n').map(t => <span key={'sp' + (uniqueId++)} >{t}<br /></span>)}</div>
       </div>
 
-      <div style={{ margin: '1em 0 2em', breakAfter: 'page' }} className='cv-workhistory' >
-        <div className="apply-font-title" style={{ ...layout.title, margin: '1em 0 1em' }}>{t('workhistory')}</div>
+      <div style={{ margin: '1em 0 1.5em', breakAfter: 'page' }} className='cv-workhistory' >
+        <div className="apply-font-title" style={{ ...layout.title, margin: '1em 0 0.2em' }}>{t('workhistory')}</div>
         {information.workhistory.map(historyitem => (
           <Columns key={'a' + (uniqueId++)}>
             <Columns.Column size={8} >
@@ -60,8 +60,8 @@ export function CvView({ layout, information }) {
         ))}
       </div>
 
-      <div style={{ margin: '1em 0 2em' }} className='cv-skills' >
-        <div className="apply-font-title" style={{ ...layout.title, margin: '1em 0 1em' }}>{t('skills')}</div>
+      <div style={{ margin: '1em 0 1em' }} className='cv-skills' >
+        <div className="apply-font-title" style={{ ...layout.title, margin: '1em 0 0.5em' }}>{t('skills')}</div>
         <Columns>
           {information.skills.sort(sortSkills).map(skill =>
             <Columns.Column key={'b' + (uniqueId++)} size={layout.skill.columnSize}>
@@ -70,15 +70,15 @@ export function CvView({ layout, information }) {
           )}
           {skillLevelsText.length > 0 &&
             <Columns.Column size={12}>
-              <p style={{ whiteSpace: 'pre-line' }}>{skillLevelsText[0].value}</p>
+              <p style={{ whiteSpace: 'pre-line', fontSize: '0.8em' }}>{skillLevelsText[0].value}</p>
             </Columns.Column>
           }
         </Columns>
 
       </div>
 
-      <div style={{ margin: '1em 0 2em' }} className='cv-education' >
-        <div className="apply-font-title" style={{ ...layout.title, margin: '1em 0 1em' }}>{t('education')}</div>
+      <div style={{ margin: '1em 0 1' }} className='cv-education' >
+        <div className="apply-font-title" style={{ ...layout.title, margin: '1em 0 0.5em' }}>{t('education')}</div>
         {information.education.map(item => (
           <Columns key={'c' + (uniqueId++)}>
             <Columns.Column size={8} >
@@ -99,9 +99,6 @@ export function CvView({ layout, information }) {
           </Columns>
         ))}
       </div>
-
-      <Section className='' >
-      </Section>
 
 
     </div>
